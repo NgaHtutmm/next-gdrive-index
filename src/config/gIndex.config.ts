@@ -221,7 +221,7 @@ const config: z.input<typeof Schema_Config> = {
      * Add page load time on the footer
      * If you don't want to use it, you can set it to false
      */
-    experimental_pageLoadTime: 's',
+    experimental_pageLoadTime: false,
 
     /**
      * Site wide password protection
