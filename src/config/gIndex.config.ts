@@ -109,7 +109,7 @@ const config: z.input<typeof Schema_Config> = {
      *
      * Default: true
      */
-    proxyThumbnail: true,
+    proxyThumbnail: false,
 
     /**
      * Only show preview for files that are smaller than this size
