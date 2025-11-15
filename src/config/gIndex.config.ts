@@ -63,7 +63,7 @@ const config: z.input<typeof Schema_Config> = {
      * Then you need to encrypt it using `/api/internal/encrypt?q=:shared_drive_id` route
      */
     isTeamDrive: true,
-    sharedDrive: "ac00aeb3abd175f34f8b6e650eaff85abb5722c61ddc0271abcd62b83f1d7359f0794d;3483bf0a21ab66d2e2ae3caa",
+    sharedDrive: "ac00aeb3abd175f34f8b6e650eaff85abb5722c61ddc0271abcd62b83f1d7359f0794d;0AFQlgHvlRUbbUk9PVA, 0AFZtR1-CpwDBUk9PVA, 0APYp3ZrzGPWAUk9PVA, 1-FNlEgYUoa-4xXYmDfANxbj4lu0ssHwJ",
 
     defaultQuery: ["trashed = false", "(not mimeType contains 'google-apps' or mimeType contains 'folder')"],
     defaultField:
