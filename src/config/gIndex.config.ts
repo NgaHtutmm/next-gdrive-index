@@ -27,7 +27,7 @@ const config: z.input<typeof Schema_Config> = {
    *
    * @default false
    */
-  showGuideButton: false,
+  showGuideButton: true,
 
   /**
    * How long the cache will be stored in the browser
@@ -73,30 +73,6 @@ const config: z.input<typeof Schema_Config> = {
     searchResult: 5,
 
     /**
-     * Special file name that will be used for certain purposes
-     * These files will be ignored when searching for files
-     * and will be hidden from the files list by default
-     */
-    specialFile: {
-      password: ".password",
-      readme: ".readme.md",
-      /**
-       * Banner will be used for opengraph image for folder
-       * By default, all folder will use default og image
-       */
-      banner: ".banner",
-    },
-    /**
-     * Reason why banner has multiple extensions:
-     * - If I use contains query, it will also match the file or folder that contains the word.
-     *   (e.g: File / folder with the name of "Test Password" will be matched)
-     * - If I use = query, it will only match the exact name, hence the multiple extensions
-     *
-     * You can add more extensions if you want
-     */
-    hiddenFiles: [".password", ".readme.md", ".banner", ".banner.jpg", ".banner.png", ".banner.webp"],
-
-    /**
      * By default, the app will use the thumbnail URL from Google Drive
      *
      * Sometimes, the thumbnail can't be accessed because of CORS policy
@@ -124,20 +100,31 @@ const config: z.input<typeof Schema_Config> = {
      *
      * Default: 100MB
      */
-    streamMaxSize: 104857600,
+    streamMaxSize: 100 * 1024 * 1024,
 
     /**
-     * Maximum file size that can be downloaded via api routes
-     * If it's larger than this, it will be redirected to the file url
-     *
-     * If you're using Vercel, they have a limit of ~4 - ~4.5MB response size
-     * ref: https://vercel.com/docs/functions/runtimes#request-body-size
-     * If you're using another platform, you can match the limit with your platform
-     * Or you can set this to 0 to disable the limit
-     *
-     * Default: 4MB
+     * Special file name that will be used for certain purposes
+     * These files will be ignored when searching for files
+     * and will be hidden from the files list by default
      */
-    maxFileSize: 4194304,
+    specialFile: {
+      password: ".password",
+      readme: ".readme.md",
+      /**
+       * Banner will be used for opengraph image for folder
+       * By default, all folder will use default og image
+       */
+      banner: ".banner",
+    },
+    /**
+     * Reason why banner has multiple extensions:
+     * - If I use contains query, it will also match the file or folder that contains the word.
+     *   (e.g: File / folder with the name of "Test Password" will be matched)
+     * - If I use = query, it will only match the exact name, hence the multiple extensions
+     *
+     * You can add more extensions if you want
+     */
+    hiddenFiles: [".password", ".readme.md", ".banner", ".banner.jpg", ".banner.png", ".banner.webp"],
 
     /**
      * Allow user to download protected file without password.
@@ -147,7 +134,6 @@ const config: z.input<typeof Schema_Config> = {
      * Default: false
      */
     allowDownloadProtectedFile: true,
-
     /**
      * Duration in hours.
      * In version 2, this will be used for download link expiration.
@@ -161,6 +147,19 @@ const config: z.input<typeof Schema_Config> = {
      * Default: 1 hour
      */
     temporaryTokenDuration: 6,
+
+    /**
+     * Maximum file size that can be downloaded via api routes
+     * If it's larger than this, it will be redirected to the file url
+     *
+     * If you're using Vercel, they have a limit of ~4 - ~4.5MB response size
+     * ref: https://vercel.com/docs/functions/runtimes#request-body-size
+     * If you're using another platform, you can match the limit with your platform
+     * Or you can set this to 0 to disable the limit
+     *
+     * Default: 4MB
+     */
+    maxFileSize: 4 * 1024 * 1024,
   },
 
   siteConfig: {
@@ -172,11 +171,11 @@ const config: z.input<typeof Schema_Config> = {
      *
      * You can set it to undefined if you don't want to use it
      */
-    siteName: "oc-drive",
+    siteName: "next-gdrive-index",
     siteNameTemplate: "%s - %t",
     siteDescription: "A simple file browser for Google Drive",
     siteIcon: "/logo.svg",
-    siteAuthor: "nagahtut",
+    siteAuthor: "mbaharip",
     favIcon: "/favicon.png",
     /**
      * Next.js Metadata robots object
@@ -184,7 +183,7 @@ const config: z.input<typeof Schema_Config> = {
      * ref: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#robots
      */
     robots: "noindex, nofollow",
-    twitterHandle: "@ngahtut",
+    twitterHandle: "@mbaharip_",
 
     /**
      * Show file extension on the file name
@@ -196,6 +195,33 @@ const config: z.input<typeof Schema_Config> = {
      * Default: false
      */
     showFileExtension: true,
+
+    /**
+     * Footer content
+     * You can also set it to empty array if you don't want to use it
+     *
+     * Basic markdown is supported (bold, italic, and link)
+     * External link will be opened in new tab
+     *
+     * Template:
+     * - {{ year }} will be replaced with the current year
+     * - {{ repository }} will be replaced with the original repository link
+     * - {{ poweredBy }} will be replaced with "Powered by next-gdrive-index", linked to the repository
+     * - {{ author }} will be replaced with author from siteAuthor config above (If it's not set, it will be set to mbaharip)
+     * - {{ version }} will be replaced with the current version
+     * - {{ siteName }} will be replaced with the siteName config above
+     * - {{ handle }} will be replaced with the twitter handle from twitterHandle config above
+     * - {{ creator }} will be replaced with mbaharip if you want to credit me
+     */
+    footer: [
+      { value: "{{ poweredBy }}" },
+      { value: "Made with ❤️ by [**{{ author }}**](https://ocmovies.net)" },
+    ],
+    /**
+     * Add page load time on the footer
+     * If you don't want to use it, you can set it to false
+     */
+    experimental_pageLoadTime: true,
 
     /**
      * Site wide password protection
@@ -220,8 +246,64 @@ const config: z.input<typeof Schema_Config> = {
      */
     toaster: {
       position: "bottom-right",
-      duration: 3000,
+      duration: 5000,
     },
+
+    /**
+     * Example item:
+     * {
+     *  icon: string, // icon name from lucide icons (https://lucide.dev/icons/)
+     *  name: string,
+     *  href: string,
+     *  external?: boolean
+     * }
+     */
+    navbarItems: [
+      {
+        icon: "FileText",
+        name: "Documentation",
+        href: "https://github.com/mbahArip/next-gdrive-index/wiki",
+        external: true,
+      },
+      {
+        icon: "Github",
+        name: "Github",
+        href: "https://www.github.com/mbaharip",
+        external: true,
+      },
+      {
+        icon: "Mail",
+        name: "Contact",
+        href: "mailto:support@mbaharip.com",
+      },
+    ],
+
+    /**
+     * Add support / donation links on the navbar
+     * Example item:
+     * {
+     *  name: string,
+     *  currency: string,
+     *  href: string,
+     * }
+     */
+    supports: [
+      {
+        name: "Paypal",
+        currency: "USD",
+        href: "https://paypal.me/mbaharip",
+      },
+      {
+        name: "Ko-fi",
+        currency: "USD",
+        href: "https://ko-fi.com/mbaharip",
+      },
+      {
+        name: "Saweria",
+        currency: "IDR",
+        href: "https://saweria.co/mbaharip",
+      },
+    ],
 
     /**
      * Configuration for file preview
@@ -240,59 +322,6 @@ const config: z.input<typeof Schema_Config> = {
         maxItem: 10,
       },
     },
-
-    /**
-     * Example item:
-     * {
-     *  icon: string, // icon name from lucide icons (https://lucide.dev/icons/)
-     *  name: string,
-     *  href: string,
-     *  external?: boolean
-     * }
-     */
-    navbarItems: [],
-
-    /**
-     * Add support / donation links on the navbar
-     * Example item:
-     * {
-     *  name: string,
-     *  currency: string,
-     *  href: string,
-     * }
-     */
-    supports: [],
-
-    /**
-     * Footer content
-     * You can also set it to empty array if you don't want to use it
-     *
-     * Basic markdown is supported (bold, italic, and link)
-     * External link will be opened in new tab
-     *
-     * Template:
-     * - {{ year }} will be replaced with the current year
-     * - {{ repository }} will be replaced with the original repository link
-     * - {{ poweredBy }} will be replaced with "Powered by next-gdrive-index", linked to the repository
-     * - {{ author }} will be replaced with author from siteAuthor config above (If it's not set, it will be set to mbaharip)
-     * - {{ version }} will be replaced with the current version
-     * - {{ siteName }} will be replaced with the siteName config above
-     * - {{ handle }} will be replaced with the twitter handle from twitterHandle config above
-     * - {{ creator }} will be replaced with mbaharip if you want to credit me
-     */
-    footer: [
-  {
-    "value": "{{ poweredBy }}"
-  },
-  {
-    "value": "Made with ❤️ by [**{{ author }}**](https://github.com/mbaharip)"
-  }
-],
-    /**
-     * Add page load time on the footer
-     * If you don't want to use it, you can set it to false
-     */
-    experimental_pageLoadTime: false,
   },
 };
 
