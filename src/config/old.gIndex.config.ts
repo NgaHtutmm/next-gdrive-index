@@ -47,7 +47,7 @@ const config: z.input<typeof Schema_Config> = {
      * Then, copy the folder id and paste it here
      */
     rootFolder:
-      "e0a5fd4f9f7d05d220e517ef3ef4de7acf4277b64a09b916e8ee30703f0d6fd1cdbde87601a667ca61afd1a702e203e6ec;e13a51f76049b2e4e02c5d41",
+      "9b6c85c96dbecbc9bb4d2dc6a7e11fb11d81aae64b93238b5469a24b5402ebc77dd60f5a7a8effe35116f92d9385045065;d42b286d28235c9a564f5785",
 
     /**
      * If your rootfolder inside a shared drive, you NEED to set this to true
@@ -63,7 +63,7 @@ const config: z.input<typeof Schema_Config> = {
      * Then you need to encrypt it using `/api/internal/encrypt?q=:shared_drive_id` route
      */
     isTeamDrive: true,
-    sharedDrive: "908f663cfd7fa75a494061c4856f03c76ac72430d9212bb34bc0707d1867cfece98664;5f1d6ec93903f2af7b9cfe2f",
+    sharedDrive: "fb4d0f7fe6da6429377e1983851de8bfd2daf4ef9cec74c12bdf145856c3302555fc52;4d24f5e30c078d4927d605a8",
 
     defaultQuery: ["trashed = false", "(not mimeType contains 'google-apps' or mimeType contains 'folder')"],
     defaultField:
@@ -133,7 +133,7 @@ const config: z.input<typeof Schema_Config> = {
      *
      * Default: false
      */
-    allowDownloadProtectedFile: false,
+    allowDownloadProtectedFile: true,
     /**
      * Duration in hours.
      * In version 2, this will be used for download link expiration.
@@ -146,7 +146,7 @@ const config: z.input<typeof Schema_Config> = {
      *
      * Default: 1 hour
      */
-    temporaryTokenDuration: 1,
+    temporaryTokenDuration: 6,
 
     /**
      * Maximum file size that can be downloaded via api routes
@@ -215,13 +215,13 @@ const config: z.input<typeof Schema_Config> = {
      */
     footer: [
       { value: "{{ poweredBy }}" },
-      { value: "Made with ❤️ by [**{{ author }}**](https://github.com/mbaharip)" },
+      { value: "Made with ❤️ by [**{{ author }}**](https://ocmovies.net)" },
     ],
     /**
      * Add page load time on the footer
      * If you don't want to use it, you can set it to false
      */
-    experimental_pageLoadTime: false,
+    experimental_pageLoadTime: true,
 
     /**
      * Site wide password protection
@@ -230,7 +230,7 @@ const config: z.input<typeof Schema_Config> = {
      * The site password are set from Environment Variable (NEXT_GDRIVE_INDEX_PASSWORD)
      * It's because I don't want to store sensitive data in the code
      */
-    privateIndex: false,
+    privateIndex: true,
 
     /**
      * Maximum breadcrumb length
